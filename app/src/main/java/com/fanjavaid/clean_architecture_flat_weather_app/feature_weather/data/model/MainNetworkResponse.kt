@@ -1,9 +1,9 @@
-package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.models
+package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.model
 
 
 import com.google.gson.annotations.SerializedName
 
-data class Main(
+data class MainNetworkResponse(
     @SerializedName("feels_like")
     val feelsLike: Double, // 313.95
     @SerializedName("humidity")

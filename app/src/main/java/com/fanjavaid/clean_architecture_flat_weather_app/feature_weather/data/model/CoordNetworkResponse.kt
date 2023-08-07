@@ -1,9 +1,9 @@
-package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.models
+package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.model
 
 
 import com.google.gson.annotations.SerializedName
 
-data class Coord(
+data class CoordNetworkResponse(
     @SerializedName("lat")
     val lat: Double, // -6.3065
     @SerializedName("lon")
