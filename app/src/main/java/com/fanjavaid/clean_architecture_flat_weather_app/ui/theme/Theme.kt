@@ -16,29 +16,27 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = darkColorPrimary,
+    secondary = darkColorSecondary,
+    tertiary = darkColorTertiary,
+    surface = darkColorSurface,
+    onSurface = darkColorText,
+    onPrimary = darkColorText,
+    onSecondary = darkColorText
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = lightColorPrimary,
+    secondary = lightColorSecondary,
+    tertiary = lightColorTertiary,
+    surface = lightColorSurface,
+    onSurface = lightColorText,
+    onPrimary = lightColorText,
+    onSecondary = lightColorText
 )
 
 @Composable
-fun CleanarchitectureflatweatherappTheme(
+fun WeatherAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
@@ -58,7 +56,7 @@ fun CleanarchitectureflatweatherappTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
