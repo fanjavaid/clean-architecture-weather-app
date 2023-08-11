@@ -3,6 +3,7 @@ package com.fanjavaid.clean_architecture_flat_weather_app.core.di
 import com.fanjavaid.clean_architecture_flat_weather_app.BuildConfig
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.mapper.ForecastMapper
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.mapper.WeatherMapper
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.source.CityNetworkService
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.source.WeatherNetworkService
 import dagger.Module
 import dagger.Provides
@@ -25,6 +26,7 @@ object AppModule {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val urlWithApiKey = chain.request().url.newBuilder()
+                    .addQueryParameter("units", "metric")
                     .addQueryParameter("appid", BuildConfig.WEATHER_API_KEY)
                     .build()
                 val request = chain.request().newBuilder()
@@ -40,20 +42,46 @@ object AppModule {
             .build()
     }
 
+    @RetrofitWeatherApi
     @Provides
     @Singleton
     fun providesRetrofit(httpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://pro.openweathermap.org/data/2.5/")
+            .baseUrl("https://api.openweathermap.org/data/2.5/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient)
             .build()
     }
 
+    @RetrofitCityApi
     @Provides
     @Singleton
-    fun providesWeatherService(retrofit: Retrofit): WeatherNetworkService {
+    fun providesRetrofitCity(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://api.teleport.org/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(
+                OkHttpClient.Builder()
+                    .addInterceptor(
+                        HttpLoggingInterceptor().apply {
+                            level = HttpLoggingInterceptor.Level.BODY
+                        }
+                    )
+                    .build()
+            )
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun providesWeatherService(@RetrofitWeatherApi retrofit: Retrofit): WeatherNetworkService {
         return retrofit.create(WeatherNetworkService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesCityService(@RetrofitCityApi retrofit: Retrofit): CityNetworkService {
+        return retrofit.create(CityNetworkService::class.java)
     }
 
     @Provides

@@ -1,6 +1,5 @@
 package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,11 +15,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.fanjavaid.clean_architecture_flat_weather_app.R
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.util.formatSlashShort
 import com.fanjavaid.clean_architecture_flat_weather_app.ui.theme.WeatherAppTheme
@@ -31,9 +30,9 @@ fun WeatherCurrentInfo(
     modifier: Modifier = Modifier,
     conditionImageUrl: String,
     conditionText: String,
-    temperatureC: Double,
+    temperatureC: Int,
     dateTime: Long,
-    humidity: Double,
+    humidity: Int,
     wind: String
 ) {
 
@@ -45,9 +44,9 @@ fun WeatherCurrentInfo(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.Top
     ) {
-        Image(
+        AsyncImage(
+            model = conditionImageUrl,
             modifier = Modifier.size(150.dp),
-            painter = painterResource(id = R.drawable.img_condition_dummy),
             contentDescription = conditionText
         )
         Spacer(modifier = Modifier.width(16.dp))
@@ -92,9 +91,9 @@ fun WeatherCurrentInfoPreview() {
         WeatherCurrentInfo(
             conditionImageUrl = "",
             conditionText = "Sunny",
-            temperatureC = 15.6,
+            temperatureC = 15,
             dateTime = System.currentTimeMillis(),
-            humidity = 69.8,
+            humidity = 69,
             wind = "16 km/h",
         )
     }
