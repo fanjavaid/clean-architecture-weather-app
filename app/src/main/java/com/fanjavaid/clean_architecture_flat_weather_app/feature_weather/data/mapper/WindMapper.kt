@@ -3,8 +3,9 @@ package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.m
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.model.WindNetworkResponse
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.mapper.BaseDomainMapper
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.models.Wind
+import javax.inject.Inject
 
-class WindMapper : BaseDomainMapper<WindNetworkResponse, Wind> {
+class WindMapper @Inject constructor() : BaseDomainMapper<WindNetworkResponse, Wind> {
     override fun mapToDomainModel(data: WindNetworkResponse): Wind {
         return Wind(
             deg = data.deg,

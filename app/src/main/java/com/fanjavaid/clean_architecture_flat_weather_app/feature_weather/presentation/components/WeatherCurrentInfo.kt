@@ -1,100 +1,136 @@
 package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.components
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
-import com.fanjavaid.clean_architecture_flat_weather_app.R
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.util.formatSlashShort
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.models.WeatherData
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.util.WeatherConditionImage
 import com.fanjavaid.clean_architecture_flat_weather_app.ui.theme.WeatherAppTheme
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 @Composable
 fun WeatherCurrentInfo(
     modifier: Modifier = Modifier,
-    conditionImageUrl: String,
+    location: String,
+    condition: WeatherData?,
     conditionText: String,
     temperatureC: Int,
-    dateTime: Long,
-    humidity: Int,
-    wind: String
+    dateTime: Long
 ) {
+
+    val conditionName = condition?.main
 
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(235.dp)
+            .background(
+                MaterialTheme.colorScheme.primaryContainer,
+                MaterialTheme.shapes.medium
+            )
+            .height(200.dp)
             .padding(24.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.Top
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        AsyncImage(
-            model = conditionImageUrl,
-            modifier = Modifier.size(150.dp),
-            contentDescription = conditionText
-        )
-        Spacer(modifier = Modifier.width(16.dp))
         Column(
-            modifier = Modifier
-                .fillMaxHeight()
+            modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = "$temperatureC°",
-                style = MaterialTheme.typography.headlineLarge.copy(
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 60.sp
-                )
+                text = location,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = Date(dateTime).formatSlashShort().orEmpty(), // TODO: Create formatter
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    color = MaterialTheme.colorScheme.onPrimary,
+                text = SimpleDateFormat("EEE, dd MMM yyyy hh:mm", Locale.getDefault()).format(Date(dateTime)),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                    alpha = .75f
+                ),
+            )
+            Text(
+                text = "$temperatureC°",
+                style = MaterialTheme.typography.displayLarge.copy(
                     fontWeight = FontWeight.Light
-                )
+                ),
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            WeatherTextIconHorizontal(
-                icon = R.drawable.ic_humidity,
-                text = "$humidity%"
+            Text(
+                text = condition?.main.orEmpty(),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            WeatherTextIconHorizontal(
-                icon = R.drawable.ic_wind,
-                text = wind
-            )
+        }
+
+        Box(
+            modifier = Modifier.weight(1f),
+            contentAlignment = Alignment.Center
+        ) {
+            conditionName?.let {
+                val imageRes = WeatherConditionImage.icons[it]
+                if (imageRes != null) {
+                    Image(
+                        imageVector = ImageVector.vectorResource(imageRes),
+                        modifier = Modifier.size(100.dp),
+                        contentDescription = conditionText
+                    )
+                }
+            }
         }
     }
 }
 
-@Preview
+@Composable
+fun WeatherCurrentInfoShimmer(modifier: Modifier = Modifier) {
+    Surface(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                MaterialTheme.colorScheme.surface,
+                MaterialTheme.shapes.medium
+            )
+            .height(200.dp),
+        tonalElevation = 16.dp,
+        shape = MaterialTheme.shapes.medium
+    ) {
+        Spacer(modifier = Modifier)
+    }
+}
+
+@Preview(showBackground = false)
 @Composable
 fun WeatherCurrentInfoPreview() {
     WeatherAppTheme {
         WeatherCurrentInfo(
-            conditionImageUrl = "",
+            location = "Jakarta Selatan, DKI Jakarta, Indonesia",
+            condition = WeatherData("", "", 0, ""),
             conditionText = "Sunny",
             temperatureC = 15,
-            dateTime = System.currentTimeMillis(),
-            humidity = 69,
-            wind = "16 km/h",
+            dateTime = System.currentTimeMillis()
         )
     }
 }

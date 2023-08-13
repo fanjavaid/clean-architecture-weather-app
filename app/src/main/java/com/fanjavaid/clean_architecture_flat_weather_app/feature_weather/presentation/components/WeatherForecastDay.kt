@@ -1,97 +1,117 @@
 package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.fanjavaid.clean_architecture_flat_weather_app.R
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.util.formatThreeCharsDay
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.models.Weather
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.util.WeatherConditionImage
 import com.fanjavaid.clean_architecture_flat_weather_app.ui.theme.WeatherAppTheme
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 @Composable
 fun WeatherForecastDay(
     modifier: Modifier = Modifier,
-    dateTime: Long,
-    conditionImageUrl: String,
-    conditionText: String,
-    temperatureC: Double,
-    humidity: Double,
-    wind: String
+    forecasts: List<Weather>
 ) {
-
-    Column(
+    Row(
         modifier = modifier
-    ) {
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-                .background(MaterialTheme.colorScheme.secondary)
-                .padding(8.dp),
-            text = Date(dateTime).formatThreeCharsDay().orEmpty().uppercase(),
-            style = MaterialTheme.typography.headlineSmall.copy(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSecondary,
-                textAlign = TextAlign.Center,
+            .fillMaxWidth()
+            .background(
+                MaterialTheme.colorScheme.secondaryContainer,
+                MaterialTheme.shapes.medium
             ),
-        )
-
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.tertiary)
-                .fillMaxSize()
-                .padding(vertical = 16.dp, horizontal = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            WeatherTextIconVertical(
-                icon = R.drawable.ic_humidity,
-                iconSize = 32.dp,
-                text = "$temperatureC°"
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            WeatherTextIconVertical(
-                icon = R.drawable.ic_humidity,
-                text = "$humidity%"
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            WeatherTextIconVertical(
-                icon = R.drawable.ic_wind,
-                text = wind
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        forecasts.forEach {
+            WeatherForecastListItem(
+                date = it.dt.toLong() * 1_000,
+                temperatureC = it.main?.temp ?: 0.0,
+                condition = it.weatherData?.firstOrNull()?.main
             )
         }
     }
 }
 
-@Preview
+@Composable
+fun WeatherForecastListItem(
+    modifier: Modifier = Modifier,
+    date: Long,
+    temperatureC: Double,
+    condition: String?
+) {
+    Column(
+        modifier = modifier.height(120.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Text(
+            text = SimpleDateFormat("EEE", Locale.getDefault()).format(Date(date)).uppercase(),
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSecondaryContainer
+        )
+        Box(modifier = Modifier.heightIn(min = 32.dp)) {
+            condition?.let {
+                val imageRes = WeatherConditionImage.icons[it] ?: R.mipmap.ic_launcher_round
+                Image(
+                    modifier = Modifier.size(32.dp),
+                    imageVector = ImageVector.vectorResource(id = imageRes),
+                    contentDescription = condition,
+                )
+            }
+        }
+        Text(
+            text = "$temperatureC°",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSecondaryContainer
+        )
+    }
+}
+
+@Composable
+fun WeatherForecastListItemShimmer(modifier: Modifier = Modifier) {
+    Surface(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                MaterialTheme.colorScheme.surface,
+                MaterialTheme.shapes.medium
+            )
+            .height(120.dp),
+        tonalElevation = 16.dp,
+        shape = MaterialTheme.shapes.medium
+    ) {
+        Spacer(modifier = Modifier)
+    }
+}
+
+
+@Preview(showBackground = false)
 @Composable
 fun WeatherForecastDayPreview() {
     WeatherAppTheme {
         WeatherForecastDay(
-            dateTime = System.currentTimeMillis(),
-            conditionImageUrl = "",
-            conditionText = "Sunny",
-            temperatureC = -19.0,
-            humidity = 69.0,
-            wind = "50 km/h"
+            forecasts = listOf()
         )
     }
 }

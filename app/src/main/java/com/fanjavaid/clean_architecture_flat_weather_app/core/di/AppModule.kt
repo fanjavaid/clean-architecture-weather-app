@@ -1,9 +1,8 @@
 package com.fanjavaid.clean_architecture_flat_weather_app.core.di
 
 import com.fanjavaid.clean_architecture_flat_weather_app.BuildConfig
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.mapper.ForecastMapper
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.mapper.WeatherMapper
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.source.CityNetworkService
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.source.GuardianNewsNetworkService
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.source.WeatherNetworkService
 import dagger.Module
 import dagger.Provides
@@ -72,6 +71,34 @@ object AppModule {
             .build()
     }
 
+    @RetrofitNewsApi
+    @Provides
+    @Singleton
+    fun providesRetrofitNews(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://content.guardianapis.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(
+                OkHttpClient.Builder()
+                    .addInterceptor { chain ->
+                        val urlWithApiKey = chain.request().url.newBuilder()
+                            .addQueryParameter("api-key", BuildConfig.GUARDIAN_API_KEY)
+                            .build()
+                        val request = chain.request().newBuilder()
+                            .url(urlWithApiKey)
+                            .build()
+                        chain.proceed(request)
+                    }
+                    .addInterceptor(
+                        HttpLoggingInterceptor().apply {
+                            level = HttpLoggingInterceptor.Level.BODY
+                        }
+                    )
+                    .build()
+            )
+            .build()
+    }
+
     @Provides
     @Singleton
     fun providesWeatherService(@RetrofitWeatherApi retrofit: Retrofit): WeatherNetworkService {
@@ -86,14 +113,11 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun providesNewsService(@RetrofitNewsApi retrofit: Retrofit): GuardianNewsNetworkService {
+        return retrofit.create(GuardianNewsNetworkService::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun providesAppDispatchers(): Dispatchers = Dispatchers
-
-    // Mapper
-    @Provides
-    @Singleton
-    fun providesWeatherMapper(): WeatherMapper = WeatherMapper()
-
-    @Provides
-    @Singleton
-    fun providesForecastMapper(): ForecastMapper = ForecastMapper()
 }

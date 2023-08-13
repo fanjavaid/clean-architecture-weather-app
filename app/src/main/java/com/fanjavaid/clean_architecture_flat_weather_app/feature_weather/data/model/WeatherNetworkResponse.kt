@@ -4,29 +4,29 @@ import com.google.gson.annotations.SerializedName
 
 data class WeatherNetworkResponse(
     @SerializedName("base")
-    val base: String, // stations
+    val base: String?, // stations
     @SerializedName("clouds")
-    val clouds: CloudsNetworkResponse,
+    val clouds: CloudsNetworkResponse?,
     @SerializedName("cod")
     val cod: Int, // 200
     @SerializedName("coord")
-    val coord: CoordNetworkResponse,
+    val coord: CoordNetworkResponse?,
     @SerializedName("dt")
     val dt: Int, // 1691391359
     @SerializedName("id")
     val id: Int, // 1642941
     @SerializedName("main")
-    val main: MainNetworkResponse,
+    val main: MainNetworkResponse?,
     @SerializedName("name")
-    val name: String, // Jagakarsa
+    val name: String?, // Jagakarsa
     @SerializedName("sys")
-    val sys: SysNetworkResponse,
+    val sys: SysNetworkResponse?,
     @SerializedName("timezone")
     val timezone: Int, // 25200
     @SerializedName("visibility")
     val visibility: Int, // 4000
     @SerializedName("weather")
-    val weatherData: List<WeatherDataNetworkResponse>,
+    val weatherData: List<WeatherDataNetworkResponse>?,
     @SerializedName("wind")
-    val wind: WindNetworkResponse
+    val wind: WindNetworkResponse?
 )

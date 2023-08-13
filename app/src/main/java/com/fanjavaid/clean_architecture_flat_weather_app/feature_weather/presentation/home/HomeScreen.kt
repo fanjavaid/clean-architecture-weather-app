@@ -1,137 +1,143 @@
 package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.home
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Divider
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Newspaper
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.models.city.City
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.components.WeatherCityOption
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.components.WeatherCitySearch
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.components.WeatherCurrentInfo
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.components.WeatherCurrentInfoShimmer
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.components.WeatherForecastDay
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.components.WeatherForecastListItemShimmer
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.components.WeatherNewsList
 import com.fanjavaid.clean_architecture_flat_weather_app.ui.theme.WeatherAppTheme
 import kotlin.math.ceil
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
 
-    var showSearch by remember {
-        mutableStateOf(false)
-    }
-
-    var cityName by remember {
-        mutableStateOf("")
-    }
-
-    var selectedCity by remember {
-        mutableStateOf(City("-1", "Unknown"))
-    }
-
-    val results = viewModel.cities.value
-    val currentWeather = viewModel.currentWeather.value
-    val uiEvent by viewModel.eventState.collectAsState(initial = null)
+    val cityListState by viewModel.cityListState.collectAsStateWithLifecycle()
+    val currentWeatherState by viewModel.currentWeatherState.collectAsStateWithLifecycle()
+    val forecastState by viewModel.forecastState.collectAsStateWithLifecycle()
+    val newsState by viewModel.newsState.collectAsStateWithLifecycle()
 
     Scaffold(
-        modifier = modifier
+        modifier = modifier,
+        topBar = {
+            WeatherCitySearch(
+                modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp),
+                loading = cityListState.isLoading,
+                cityName = viewModel.cityName.value,
+                results = cityListState.cities,
+                onValueChange = {
+                    viewModel.cityName.value = it
+                    if (it.isBlank()) viewModel.onEvent(HomeEvent.ClearResult)
+                },
+                onSearch = {
+                    viewModel.onEvent(HomeEvent.SearchCity(it))
+                },
+                onSelect = {
+                    viewModel.onEvent(HomeEvent.SelectCity(it))
+                }
+            )
+        },
+        bottomBar = {
+            NavigationBar(
+                tonalElevation = 6.dp
+            ) {
+                NavigationBarItem(
+                    selected = true,
+                    onClick = { /*TODO*/ },
+                    icon = {
+                        Icon(
+                            Icons.Default.Home,
+                            contentDescription = null
+                        )
+                    }
+                )
+                NavigationBarItem(
+                    selected = false,
+                    onClick = { /*TODO*/ },
+                    icon = {
+                        Icon(
+                            Icons.Default.Newspaper,
+                            contentDescription = null
+                        )
+                    }
+                )
+                NavigationBarItem(
+                    selected = false,
+                    onClick = { /*TODO*/ },
+                    icon = {
+                        Icon(
+                            Icons.Default.Settings,
+                            contentDescription = null
+                        )
+                    }
+                )
+            }
+        }
     ) { paddingValues ->
         Box {
             Column(
-                modifier = Modifier.padding(paddingValues)
+                modifier = Modifier
+                    .padding(top = 80.dp, bottom = paddingValues.calculateBottomPadding())
+                    .verticalScroll(rememberScrollState())
             ) {
-                WeatherCityOption(
-                    cityName = selectedCity.cityName,
-                    expanded = showSearch,
-                    onChangeCity = {
-                        showSearch = !showSearch
-                    },
-                    onChangeToCurrentLocation = {}
-                )
-                AnimatedVisibility(visible = showSearch) {
-                    Box(modifier = Modifier.height(56.dp))
+                AnimatedContent(targetState = currentWeatherState.isLoading, label = "") { isLoading ->
+                    if (isLoading) {
+                        WeatherCurrentInfoShimmer(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp))
+                    } else {
+                        WeatherCurrentInfo(
+                            modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                            location = viewModel.selectedCity.value,
+                            condition = currentWeatherState.weather?.weatherData?.firstOrNull(),
+                            conditionText = currentWeatherState.weather?.weatherData?.get(0)?.description.orEmpty(),
+                            temperatureC = ceil(currentWeatherState.weather?.main?.temp ?: 0.0).toInt(),
+                            dateTime = (currentWeatherState.weather?.dt?.toLong() ?: 0) * 1_000
+                        )
+                    }
                 }
-                WeatherCurrentInfo(
-                    conditionImageUrl = "https://openweathermap.org/img/wn/" +
-                        "${currentWeather?.weatherData?.get(0)?.icon}@2x.png",
-                    conditionText = currentWeather?.weatherData?.get(0)?.description.orEmpty(),
-                    temperatureC = ceil(currentWeather?.main?.temp ?: 0.0).toInt(),
-                    dateTime = System.currentTimeMillis(),
-                    humidity = currentWeather?.main?.humidity ?: 0,
-                    wind = "${currentWeather?.wind?.speed} km/h",
-                )
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    repeat(4) {
+                AnimatedContent(targetState = forecastState.isLoading, label = "") { isLoading ->
+                    if (isLoading) {
+                        WeatherForecastListItemShimmer(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp))
+                    } else {
                         WeatherForecastDay(
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxHeight(),
-                            dateTime = System.currentTimeMillis(),
-                            conditionImageUrl = "",
-                            conditionText = "Sunny",
-                            temperatureC = -19.0,
-                            humidity = 69.0,
-                            wind = "50 km/h"
-                        )
-                        Divider(
-                            color = MaterialTheme.colorScheme.secondary,
-                            modifier = Modifier
-                                .fillMaxHeight()  //fill the max height
-                                .width(1.dp)
+                            modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                            forecasts = forecastState.forecast?.list.orEmpty()
                         )
                     }
                 }
-            }
-
-            AnimatedVisibility(
-                visible = showSearch,
-                enter = fadeIn() + slideInVertically(initialOffsetY = { -50 }),
-                exit = fadeOut() + slideOutVertically(targetOffsetY = { -50 })
-            ) {
-                WeatherCitySearch(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 80.dp),
-                    cityName = cityName,
-                    loading = uiEvent is HomeViewModel.UiEvent.Loading,
-                    results = results,
-                    onValueChange = {
-                        cityName = it
-                    },
-                    onSearch = {
-                        viewModel.onEvent(HomeEvent.SearchCity(it))
-                    },
-                    onSelect = {
-                        viewModel.onEvent(HomeEvent.SelectCity(it))
-                        selectedCity = it
-                        showSearch = false
-                        cityName = ""
-                    }
+                WeatherNewsList(
+                    modifier = Modifier.padding(
+                        top = 16.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    ),
+                    newsList = newsState.newsList.orEmpty()
                 )
             }
         }

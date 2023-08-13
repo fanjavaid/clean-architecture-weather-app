@@ -8,6 +8,7 @@ import javax.inject.Inject
 class CityDetailMapper @Inject constructor() : BaseDomainMapper<CityDetailNetworkResponse, CityDetail> {
     override fun mapToDomainModel(data: CityDetailNetworkResponse): CityDetail {
         return CityDetail(
+            name = data.name,
             latitude = data.location.latlon.latitude,
             longitude = data.location.latlon.longitude
         )

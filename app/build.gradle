@@ -32,6 +32,7 @@ android {
             debuggable true
 
             buildConfigField "String", "WEATHER_API_KEY", localProperties.getProperty("WEATHER_API_KEY")
+            buildConfigField "String", "GUARDIAN_API_KEY", localProperties.getProperty("GUARDIAN_API_KEY")
         }
         release {
             minifyEnabled true
@@ -40,6 +41,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             buildConfigField "String", "WEATHER_API_KEY", localProperties.getProperty("WEATHER_API_KEY")
+            buildConfigField "String", "GUARDIAN_API_KEY", localProperties.getProperty("GUARDIAN_API_KEY")
         }
     }
     compileOptions {

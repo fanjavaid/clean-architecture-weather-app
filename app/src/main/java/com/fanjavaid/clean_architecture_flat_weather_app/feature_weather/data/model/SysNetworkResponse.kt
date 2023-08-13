@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class SysNetworkResponse(
     @SerializedName("country")
-    val country: String, // ID
+    val country: String?, // ID
     @SerializedName("id")
     val id: Int, // 2082918
     @SerializedName("sunrise")

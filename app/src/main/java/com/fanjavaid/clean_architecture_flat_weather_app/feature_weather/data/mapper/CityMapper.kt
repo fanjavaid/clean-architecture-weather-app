@@ -3,11 +3,14 @@ package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.m
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.model.CityNetworkResponse
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.mapper.BaseDomainMapper
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.models.City
+import javax.inject.Inject
 
-class CityMapper : BaseDomainMapper<CityNetworkResponse, City> {
+class CityMapper @Inject constructor(
+    private val coordMapper: CoordMapper
+) : BaseDomainMapper<CityNetworkResponse, City> {
     override fun mapToDomainModel(data: CityNetworkResponse): City {
         return City(
-            coord = CoordMapper().mapToDomainModel(data.coord),
+            coord = coordMapper.mapToDomainModel(data.coord),
             country = data.country,
             id = data.id,
             name = data.name,

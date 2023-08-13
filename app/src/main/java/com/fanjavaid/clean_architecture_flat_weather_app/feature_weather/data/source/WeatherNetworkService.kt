@@ -13,7 +13,7 @@ interface WeatherNetworkService {
         @Query("lon") lon: Double
     ): WeatherNetworkResponse
 
-    @GET("forecast/hourly")
+    @GET("forecast")
     suspend fun getForecastWeather(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double

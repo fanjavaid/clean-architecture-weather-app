@@ -3,23 +3,31 @@ package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.m
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.model.WeatherNetworkResponse
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.mapper.BaseDomainMapper
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.models.Weather
+import javax.inject.Inject
 
-class WeatherMapper : BaseDomainMapper<WeatherNetworkResponse, Weather> {
+class WeatherMapper @Inject constructor(
+    private val cloudsMapper: CloudsMapper,
+    private val coordMapper: CoordMapper,
+    private val mainMapper: MainMapper,
+    private val sysMapper: SysMapper,
+    private val windMapper: WindMapper,
+    private val weatherDataMapper: WeatherDataMapper
+) : BaseDomainMapper<WeatherNetworkResponse, Weather> {
     override fun mapToDomainModel(data: WeatherNetworkResponse): Weather {
         return Weather(
             base = data.base,
-            clouds = CloudsMapper().mapToDomainModel(data.clouds),
+            clouds = data.clouds?.let { cloudsMapper.mapToDomainModel(it) },
             cod = data.cod,
-            coord = CoordMapper().mapToDomainModel(data.coord),
+            coord = data.coord?.let { coordMapper.mapToDomainModel(it) },
             dt = data.dt,
             id = data.id,
-            main = MainMapper().mapToDomainModel(data.main),
+            main = data.main?.let { mainMapper.mapToDomainModel(it) },
             name = data.name,
-            sys = SysMapper().mapToDomainModel(data.sys),
+            sys = data.sys?.let { sysMapper.mapToDomainModel(it) },
             timezone = data.timezone,
             visibility = data.visibility,
-            weatherData = data.weatherData.map(WeatherDataMapper()::mapToDomainModel),
-            wind = WindMapper().mapToDomainModel(data.wind)
+            weatherData = data.weatherData?.map(weatherDataMapper::mapToDomainModel),
+            wind = data.wind?.let { windMapper.mapToDomainModel(it) }
         )
     }
 }

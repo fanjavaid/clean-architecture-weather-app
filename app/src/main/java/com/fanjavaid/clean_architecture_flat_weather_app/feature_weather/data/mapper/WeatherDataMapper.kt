@@ -3,8 +3,9 @@ package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.m
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.model.WeatherDataNetworkResponse
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.mapper.BaseDomainMapper
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.models.WeatherData
+import javax.inject.Inject
 
-class WeatherDataMapper : BaseDomainMapper<WeatherDataNetworkResponse, WeatherData> {
+class WeatherDataMapper @Inject constructor() : BaseDomainMapper<WeatherDataNetworkResponse, WeatherData> {
     override fun mapToDomainModel(data: WeatherDataNetworkResponse): WeatherData {
         return WeatherData(
             description = data.description,
