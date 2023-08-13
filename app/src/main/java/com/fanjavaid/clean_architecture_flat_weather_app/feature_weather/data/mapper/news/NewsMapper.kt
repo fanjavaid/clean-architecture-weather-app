@@ -14,6 +14,7 @@ class NewsMapper @Inject constructor() : BaseDomainMapper<GuardianNewsNetworkRes
         return data.response.results.map {
             News(
                 id = it.id,
+                webUrl = it.webUrl,
                 headline = it.fields.headline,
                 trailText = it.fields.trailText,
                 thumbnail = it.fields.thumbnail,

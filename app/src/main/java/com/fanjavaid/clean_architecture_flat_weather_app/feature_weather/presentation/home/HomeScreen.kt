@@ -1,5 +1,8 @@
 package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.home
 
+import android.content.Context
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
@@ -19,6 +22,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -36,6 +40,7 @@ import kotlin.math.ceil
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    context: Context = LocalContext.current,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
 
@@ -137,7 +142,11 @@ fun HomeScreen(
                         start = 16.dp,
                         end = 16.dp
                     ),
-                    newsList = newsState.newsList.orEmpty()
+                    newsList = newsState.newsList.orEmpty(),
+                    onClickItem = { url ->
+                        val chromeIntent = CustomTabsIntent.Builder().build()
+                        chromeIntent.launchUrl(context, Uri.parse(url))
+                    }
                 )
             }
         }

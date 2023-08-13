@@ -4,6 +4,7 @@ import java.util.Date
 
 data class News(
     val id: String,
+    val webUrl: String,
     val headline: String,
     val trailText: String,
     val thumbnail: String,
