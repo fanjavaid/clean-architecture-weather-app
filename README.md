@@ -10,6 +10,12 @@ If you have any questions, concern feel free to open an issue. Thanks!
 <img src="Weather App Dark 02.png" width="300px" align="left" />
 <img src="Weather App Light 02.png" width="300px" />
 
+## APIs
+To run this app please make sure you register the API Key for the following sites, and add the key to `local.properties`
+- Weather API (https://openweathermap.org/api)
+- News API (https://open-platform.theguardian.com/access/)
+- Location API (https://developers.teleport.org/api/)
+
 ## Tech stacks
 - Retrofit
 - OkHttp
