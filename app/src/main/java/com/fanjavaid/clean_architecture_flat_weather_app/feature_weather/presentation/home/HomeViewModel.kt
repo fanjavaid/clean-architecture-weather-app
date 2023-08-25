@@ -10,12 +10,14 @@ import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.usecases.GetCityDetailById
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.usecases.GetCurrentWeather
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.usecases.GetForecastWeather
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.usecases.GetLastSavedCity
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.usecases.GetWeatherNews
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.usecases.SearchCity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,11 +28,12 @@ class HomeViewModel @Inject constructor(
     private val getCityDetailById: GetCityDetailById,
     private val getCurrentWeather: GetCurrentWeather,
     private val getForecastWeather: GetForecastWeather,
-    private val getWeatherNews: GetWeatherNews
+    private val getWeatherNews: GetWeatherNews,
+    private val getLastSavedCity: GetLastSavedCity
 ) : ViewModel() {
 
     var cityName = mutableStateOf("")
-    var selectedCity = mutableStateOf("Jakarta")
+    var selectedCity = mutableStateOf("")
 
     private var _cityListsState = MutableStateFlow<CityListState>(CityListState())
     val cityListState = _cityListsState.asStateFlow()
@@ -46,9 +49,12 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getWeatherData(-6.2297401, 106.7471172)
-            getNews()
+            getLastSavedCity.invoke().collectLatest {
+                selectedCity.value = it.name
+                getWeatherData(it.latitude, it.longitude)
+            }
         }
+        getNews()
     }
 
     fun onEvent(event: HomeEvent) {
@@ -103,7 +109,6 @@ class HomeViewModel @Inject constructor(
         _forecastState.update {
             it.copy(isLoading = true)
         }
-
 
         val weather = async {
             getCurrentWeather.invoke(

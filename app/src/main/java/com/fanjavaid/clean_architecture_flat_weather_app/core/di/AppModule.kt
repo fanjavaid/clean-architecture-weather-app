@@ -1,5 +1,10 @@
 package com.fanjavaid.clean_architecture_flat_weather_app.core.di
 
+import android.app.Application
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import com.fanjavaid.clean_architecture_flat_weather_app.BuildConfig
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.source.CityNetworkService
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.source.GuardianNewsNetworkService
@@ -8,7 +13,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -120,4 +127,17 @@ object AppModule {
     @Provides
     @Singleton
     fun providesAppDispatchers(): Dispatchers = Dispatchers
+
+    @Provides
+    @Singleton
+    fun providesDataStore(application: Application): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
+            corruptionHandler = null,
+            migrations = listOf(),
+            scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+        ) {
+            application.applicationContext
+                .preferencesDataStoreFile("weather_app_datastore")
+        }
+    }
 }
