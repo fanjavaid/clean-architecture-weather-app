@@ -45,13 +45,6 @@ fun AirQualityScreen(
                 qualityDesc = additionalInfo.description
             )
         }
-//        items(airQualityState.data?.components.orEmpty()) { component ->
-//            AirQualityComponent(
-//                title = component.name,
-//                desc = component.desc,
-//                value = component.value,
-//            )
-//        }
     }
 }
 

@@ -1,6 +1,6 @@
 package com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.data.repositories
 
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.data.mapper.v2.AirQualityIndexMapper
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.data.mapper.AirQualityIndexMapper
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.data.source.AirQualityService
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.model.AirQualityIndex
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.repositories.AirQualityRepository
