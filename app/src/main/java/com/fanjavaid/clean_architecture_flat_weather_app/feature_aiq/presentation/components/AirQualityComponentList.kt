@@ -1,4 +1,4 @@
-package com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.presentation.air_quality.components
+package com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.model.air_quality.AirQualityComponent
 
 @Composable
 fun AirQualityComponentList(

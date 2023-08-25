@@ -107,6 +107,34 @@ object AppModule {
             .build()
     }
 
+    @RetrofitAirQualityApi
+    @Provides
+    @Singleton
+    fun providesRetrofitAirQuality(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://api.waqi.info/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(
+                OkHttpClient.Builder()
+                    .addInterceptor { chain ->
+                        val urlWithApiKey = chain.request().url.newBuilder()
+                            .addQueryParameter("token", BuildConfig.AIR_QUALITY_API_KEY)
+                            .build()
+                        val request = chain.request().newBuilder()
+                            .url(urlWithApiKey)
+                            .build()
+                        chain.proceed(request)
+                    }
+                    .addInterceptor(
+                        HttpLoggingInterceptor().apply {
+                            level = HttpLoggingInterceptor.Level.BODY
+                        }
+                    )
+                    .build()
+            )
+            .build()
+    }
+
     @Provides
     @Singleton
     fun providesWeatherService(@RetrofitWeatherApi retrofit: Retrofit): WeatherNetworkService {
@@ -127,7 +155,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesAirQualityService(@RetrofitWeatherApi retrofit: Retrofit): AirQualityService {
+    fun providesAirQualityService(@RetrofitAirQualityApi retrofit: Retrofit): AirQualityService {
         return retrofit.create(AirQualityService::class.java)
     }
 

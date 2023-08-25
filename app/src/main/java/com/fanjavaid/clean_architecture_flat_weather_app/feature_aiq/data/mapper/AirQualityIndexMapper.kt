@@ -1,9 +1,6 @@
 package com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.data.mapper
 
-import com.fanjavaid.clean_architecture_flat_weather_app.core.mapper.BaseDomainMapper
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.data.model.AirPollutionNetworkResponse
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.model.air_quality.AirQualityComponent
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.model.air_quality.AirQualityIndex
+import com.fanjavaid.clean_architecture_flat_weather_app.shared.mapper.BaseDomainMapper
 import javax.inject.Inject
 
 class AirQualityIndexMapper @Inject constructor() :
@@ -19,11 +16,11 @@ class AirQualityIndexMapper @Inject constructor() :
                         desc = "Carbon monoxide",
                         value = it.components.co
                     ),
-                    AirQualityComponent(
-                        name = "NO",
-                        desc = "Nitrogen monoxide",
-                        value = it.components.no
-                    ),
+//                    AirQualityComponent(
+//                        name = "NO",
+//                        desc = "Nitrogen monoxide",
+//                        value = it.components.no
+//                    ),
                     AirQualityComponent(
                         name = "NO2",
                         desc = "Nitrogen dioxide",
@@ -44,11 +41,11 @@ class AirQualityIndexMapper @Inject constructor() :
                         desc = "Ozone",
                         value = it.components.o3
                     ),
-                    AirQualityComponent(
-                        name = "NH3",
-                        desc = "Ammonia",
-                        value = it.components.nh3
-                    ),
+//                    AirQualityComponent(
+//                        name = "NH3",
+//                        desc = "Ammonia",
+//                        value = it.components.nh3
+//                    ),
                     AirQualityComponent(
                         name = "SO2",
                         desc = "Sulphur dioxide",

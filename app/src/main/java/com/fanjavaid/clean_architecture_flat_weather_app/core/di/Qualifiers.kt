@@ -13,3 +13,7 @@ annotation class RetrofitCityApi
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class RetrofitNewsApi
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class RetrofitAirQualityApi

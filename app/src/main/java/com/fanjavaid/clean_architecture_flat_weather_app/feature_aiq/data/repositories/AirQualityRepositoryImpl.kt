@@ -1,8 +1,8 @@
 package com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.data.repositories
 
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.data.mapper.AirQualityIndexMapper
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.data.mapper.v2.AirQualityIndexMapper
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.data.source.AirQualityService
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.model.air_quality.AirQualityIndex
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.model.AirQualityIndex
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.repositories.AirQualityRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,7 +18,7 @@ class AirQualityRepositoryImpl @Inject constructor(
         return withContext(appDispatchers.IO) {
             try {
                 val response = airQualityService.getAirQualityIndex(latitude, longitude)
-                airQualityIndexMapper.mapToDomainModel(response).firstOrNull()
+                airQualityIndexMapper.mapToDomainModel(response)
             } catch (e: Exception) {
                 e.printStackTrace()
                 null

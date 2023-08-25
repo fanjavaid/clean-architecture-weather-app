@@ -1,6 +1,6 @@
 package com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.usecases
 
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.model.air_quality.AirQualityIndex
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.model.AirQualityIndex
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.repositories.AirQualityRepository
 import javax.inject.Inject
 

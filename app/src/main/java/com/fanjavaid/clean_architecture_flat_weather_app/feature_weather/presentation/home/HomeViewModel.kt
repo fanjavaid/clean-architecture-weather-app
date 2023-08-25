@@ -10,7 +10,7 @@ import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.usecases.GetCityDetailById
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.usecases.GetCurrentWeather
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.usecases.GetForecastWeather
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.usecases.GetLastSavedCity
+import com.fanjavaid.clean_architecture_flat_weather_app.shared.domain.GetLastSavedCity
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.usecases.GetWeatherNews
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.usecases.SearchCity
 import dagger.hilt.android.lifecycle.HiltViewModel

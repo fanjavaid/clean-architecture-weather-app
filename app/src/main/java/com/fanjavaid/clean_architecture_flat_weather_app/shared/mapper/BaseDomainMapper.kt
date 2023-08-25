@@ -1,4 +1,4 @@
-package com.fanjavaid.clean_architecture_flat_weather_app.core.mapper
+package com.fanjavaid.clean_architecture_flat_weather_app.shared.mapper
 
 /**
  * T = Input
