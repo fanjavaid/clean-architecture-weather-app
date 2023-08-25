@@ -1,9 +1,9 @@
-package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.air_quality
+package com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.presentation.air_quality
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.models.air_quality.AirQualityIndex
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.usecases.GetAirQualityIndex
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.model.air_quality.AirQualityIndex
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.usecases.GetAirQualityIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

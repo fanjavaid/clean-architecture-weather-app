@@ -1,4 +1,4 @@
-package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.air_quality.components
+package com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.presentation.air_quality.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

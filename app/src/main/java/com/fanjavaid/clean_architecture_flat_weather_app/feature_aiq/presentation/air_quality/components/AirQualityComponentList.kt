@@ -1,4 +1,4 @@
-package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.air_quality.components
+package com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.presentation.air_quality.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.models.air_quality.AirQualityComponent
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.model.air_quality.AirQualityComponent
 
 @Composable
 fun AirQualityComponentList(

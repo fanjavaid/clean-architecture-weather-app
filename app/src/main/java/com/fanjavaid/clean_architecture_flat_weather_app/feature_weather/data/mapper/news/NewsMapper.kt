@@ -1,7 +1,7 @@
 package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.mapper.news
 
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.model.news.GuardianNewsNetworkResponse
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.mapper.BaseDomainMapper
+import com.fanjavaid.clean_architecture_flat_weather_app.core.mapper.BaseDomainMapper
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.models.news.News
 import java.text.SimpleDateFormat
 import javax.inject.Inject

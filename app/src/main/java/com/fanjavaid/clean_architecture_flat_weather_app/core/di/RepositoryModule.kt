@@ -1,5 +1,7 @@
 package com.fanjavaid.clean_architecture_flat_weather_app.core.di
 
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.data.repositories.AirQualityRepositoryImpl
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.repositories.AirQualityRepository
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.repositories.CityRepositoryImpl
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.repositories.NewsRepositoryImpl
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.repositories.WeatherRepositoryImpl
@@ -27,4 +29,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindsNewsRepository(newsRepository: NewsRepositoryImpl): NewsRepository
+
+    @Binds
+    @Singleton
+    fun bindsAirQualityRepository(airQualityRepository: AirQualityRepositoryImpl): AirQualityRepository
 }

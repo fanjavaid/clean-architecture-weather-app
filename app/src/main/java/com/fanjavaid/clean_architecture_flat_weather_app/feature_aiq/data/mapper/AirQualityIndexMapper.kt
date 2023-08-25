@@ -1,9 +1,9 @@
-package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.mapper.air_quality
+package com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.data.mapper
 
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.model.air_quality.AirPollutionNetworkResponse
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.mapper.BaseDomainMapper
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.models.air_quality.AirQualityComponent
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.models.air_quality.AirQualityIndex
+import com.fanjavaid.clean_architecture_flat_weather_app.core.mapper.BaseDomainMapper
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.data.model.AirPollutionNetworkResponse
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.model.air_quality.AirQualityComponent
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.domain.model.air_quality.AirQualityIndex
 import javax.inject.Inject
 
 class AirQualityIndexMapper @Inject constructor() :

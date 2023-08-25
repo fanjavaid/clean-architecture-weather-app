@@ -2,12 +2,10 @@ package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.r
 
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.mapper.ForecastMapper
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.mapper.WeatherMapper
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.mapper.air_quality.AirQualityIndexMapper
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.model.WeatherNetworkResponse
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.source.WeatherNetworkService
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.models.Forecast
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.models.Weather
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.models.air_quality.AirQualityIndex
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.domain.repositories.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,8 +18,7 @@ class WeatherRepositoryImpl @Inject constructor(
     private val appDispatchers: Dispatchers,
     private val weatherNetworkService: WeatherNetworkService,
     private val weatherMapper: WeatherMapper,
-    private val forecastMapper: ForecastMapper,
-    private val airQualityIndexMapper: AirQualityIndexMapper
+    private val forecastMapper: ForecastMapper
 ) : WeatherRepository {
 
     override suspend fun getCurrentWeather(latitude: Double, longitude: Double): Weather? {
@@ -52,18 +49,6 @@ class WeatherRepositoryImpl @Inject constructor(
                 val updatedResponseData = responseData.copy(list = weathers)
 
                 forecastMapper.mapToDomainModel(updatedResponseData)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                null
-            }
-        }
-    }
-
-    override suspend fun getAirQualityIndex(latitude: Double, longitude: Double): AirQualityIndex? {
-        return withContext(appDispatchers.IO) {
-            try {
-                val response = weatherNetworkService.getAirQualityIndex(latitude, longitude)
-                airQualityIndexMapper.mapToDomainModel(response).firstOrNull()
             } catch (e: Exception) {
                 e.printStackTrace()
                 null

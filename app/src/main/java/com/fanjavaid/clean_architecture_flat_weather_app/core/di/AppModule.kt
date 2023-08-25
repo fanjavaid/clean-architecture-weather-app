@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.fanjavaid.clean_architecture_flat_weather_app.BuildConfig
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.data.source.AirQualityService
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.source.CityNetworkService
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.source.GuardianNewsNetworkService
 import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.data.source.WeatherNetworkService
@@ -122,6 +123,12 @@ object AppModule {
     @Singleton
     fun providesNewsService(@RetrofitNewsApi retrofit: Retrofit): GuardianNewsNetworkService {
         return retrofit.create(GuardianNewsNetworkService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesAirQualityService(@RetrofitWeatherApi retrofit: Retrofit): AirQualityService {
+        return retrofit.create(AirQualityService::class.java)
     }
 
     @Provides

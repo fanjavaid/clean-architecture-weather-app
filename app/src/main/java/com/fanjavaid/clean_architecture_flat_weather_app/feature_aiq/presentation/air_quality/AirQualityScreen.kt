@@ -1,4 +1,4 @@
-package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.air_quality
+package com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.presentation.air_quality
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.air_quality.components.AirQualityComponentList
-import com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.air_quality.components.AirQualityHeadlineCard
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.presentation.air_quality.components.AirQualityComponentList
+import com.fanjavaid.clean_architecture_flat_weather_app.feature_aiq.presentation.air_quality.components.AirQualityHeadlineCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
