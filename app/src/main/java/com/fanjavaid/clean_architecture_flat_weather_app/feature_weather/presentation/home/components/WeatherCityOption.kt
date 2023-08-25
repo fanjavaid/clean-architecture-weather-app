@@ -1,4 +1,4 @@
-package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.components
+package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.home.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

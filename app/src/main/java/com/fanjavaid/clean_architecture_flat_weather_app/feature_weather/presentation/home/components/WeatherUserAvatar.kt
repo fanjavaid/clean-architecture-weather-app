@@ -1,4 +1,4 @@
-package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.components
+package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.home.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image

@@ -1,11 +1,11 @@
-package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.components
+package com.fanjavaid.clean_architecture_flat_weather_app.feature_weather.presentation.home.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,32 +15,30 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.fanjavaid.clean_architecture_flat_weather_app.R
 import com.fanjavaid.clean_architecture_flat_weather_app.ui.theme.WeatherAppTheme
 
 @Composable
-fun WeatherTextIconVertical(
+fun WeatherTextIconHorizontal(
     modifier: Modifier = Modifier,
     @DrawableRes icon: Int,
-    iconSize: Dp = 20.dp,
     text: String
 ) {
 
-    Column(
+    Row(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            modifier = Modifier.size(iconSize),
+            modifier = Modifier.size(20.dp),
             painter = painterResource(id = icon),
             contentDescription = null,
             colorFilter = ColorFilter.tint(
                 color = MaterialTheme.colorScheme.onPrimary
             )
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = text,
             style = MaterialTheme.typography.bodyMedium.copy(
@@ -53,9 +51,9 @@ fun WeatherTextIconVertical(
 
 @Preview(showBackground = false)
 @Composable
-fun WeatherTextIconVerticalPreview() {
+fun WeatherTextIconHorizontal() {
     WeatherAppTheme {
-        WeatherTextIconVertical(
+        WeatherTextIconHorizontal(
             icon = R.drawable.ic_humidity,
             text = "69%"
         )
