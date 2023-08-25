@@ -1,6 +1,7 @@
 # Clean Architecture Weather App
 
 Hi there! Please check my Weather application. Built using Jetpack compose and Material 3. :D
+I try to implement Clean architecture + MVVM pattern but still on single module.
 If you have any questions, concern feel free to open an issue. Thanks!
 
 ## Previews
@@ -15,6 +16,7 @@ To run this app please make sure you register the API Key for the following site
 - Weather API (https://openweathermap.org/api)
 - News API (https://open-platform.theguardian.com/access/)
 - Location API (https://developers.teleport.org/api/)
+- Air Quality Index API (https://aqicn.org/api/)
 
 ## Tech stacks
 - Retrofit
@@ -24,6 +26,10 @@ To run this app please make sure you register the API Key for the following site
 - Coil
 - Jetpack compose with material 3 dynamic theme enabled
 - Lifecycle component
+- Data Store
+- Kotlin Flow, StateFlow
+- Chrome custom tabs
 
 ## Credits
 - Icons (https://www.figma.com/community/file/1028044423168519795/Degry-Weather-Iconset)
+- World Air Quality Index (https://waqi.info/)
